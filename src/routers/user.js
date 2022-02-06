@@ -48,7 +48,7 @@ router.get('/users', auth, async (req, res) => {
   }
 })
 
-router.post('/users', async (req, res) => {
+router.post('/users', auth, async (req, res) => {
   const user = new User(req.body)
 
   try {
@@ -60,7 +60,7 @@ router.post('/users', async (req, res) => {
   }
 })
 
-router.patch('/users/:id', async (req, res) => {
+router.patch('/users/:id', auth, async (req, res) => {
   const updates = Object.keys(req.body)
   const allowedUpdates = ['name', 'password']
   const isValidOperaion = updates.every((update) => allowedUpdates.includes(update))
@@ -80,7 +80,7 @@ router.patch('/users/:id', async (req, res) => {
   }
 })
 
-router.delete('/users/:id', async (req, res) => {
+router.delete('/users/:id', auth, async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id)
 

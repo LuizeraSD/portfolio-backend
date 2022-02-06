@@ -4,7 +4,7 @@ import auth from '../middleware/auth.js'
 
 const router = new express.Router()
 
-router.get('/jobs', auth, async (req, res) => {
+router.get('/jobs', async (req, res) => {
   try {
     const jobs = await Job.find({})
     res.send(jobs)
@@ -13,7 +13,7 @@ router.get('/jobs', auth, async (req, res) => {
   }
 })
 
-router.post('/jobs', async (req, res) => {
+router.post('/jobs', auth, async (req, res) => {
   const job = new Job(req.body)
 
   try {
@@ -24,7 +24,7 @@ router.post('/jobs', async (req, res) => {
   }
 })
 
-router.patch('/jobs/:id', async (req, res) => {
+router.patch('/jobs/:id', auth, async (req, res) => {
   const updates = Object.keys(req.body)
   const allowedUpdates = ['title', 'img', 'url', 'description']
   const isValidOperaion = updates.every((update) => allowedUpdates.includes(update))
@@ -44,7 +44,7 @@ router.patch('/jobs/:id', async (req, res) => {
   }
 })
 
-router.delete('/jobs/:id', async (req, res) => {
+router.delete('/jobs/:id', auth, async (req, res) => {
   try {
     const job = await Job.findByIdAndDelete(req.params.id)
 
